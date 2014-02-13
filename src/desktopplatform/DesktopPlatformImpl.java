@@ -21,6 +21,7 @@ import applicationapi.Application;
 import applicationapi.Device;
 import applicationapi.Platform;
 import applicationapi.graphics.Screen;
+import desktopplatform.keyboard.KeyboardImpl;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -35,7 +36,7 @@ import java.awt.image.BufferStrategy;
  *
  * @author tog
  */
-public class DesktopPlatformImpl implements Platform, KeyListener
+public class DesktopPlatformImpl implements Platform
 {
 
     @Override
@@ -47,18 +48,21 @@ public class DesktopPlatformImpl implements Platform, KeyListener
         Frame frame = new Frame(gc);    
         try
         {
-            frame.addKeyListener(this);
+           
             frame.setUndecorated(true);
             frame.setIgnoreRepaint(true);
             device.setFullScreenWindow(frame);
             Rectangle bounds = frame.getBounds();
             frame.createBufferStrategy(2);
             BufferStrategy strategy = frame.getBufferStrategy();
+            KeyboardImpl kb = new KeyboardImpl();
+            frame.addKeyListener(kb);
             Screen scr = new ScreenImpl(bounds.width, bounds.height, new SpriteFactoryImpl(gc));
-            Device dev = new DeviceImpl(scr, null);
+            Device dev = new DeviceImpl(scr, kb);
             app.initialize(dev);
-            long startTime = System.nanoTime();
+            long startTimeMillis = System.currentTimeMillis();
             boolean running = app.update(0);
+            kb.start(startTimeMillis);
             float fps = 0;
             int frameCount = 0;
             //Render loop
@@ -79,9 +83,14 @@ public class DesktopPlatformImpl implements Platform, KeyListener
                     //Show
                     strategy.show();
                     g.dispose();
-                    ++frameCount;
-                    long time = (System.nanoTime() - startTime) / 1000000;
+                    ++frameCount;  
+                    
+                    //Update
+                    long time = (System.currentTimeMillis() - startTimeMillis);
                     fps = ((float) frameCount*1000) / ((float) time);
+                    
+                    //Input
+                    kb.playback();
                     running = app.update(time);
                 }
             }
@@ -97,23 +106,5 @@ public class DesktopPlatformImpl implements Platform, KeyListener
         }
 
     }
-
-
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-        System.out.println("Key typed: " + e.getKeyChar());
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        System.out.println("Key pressed: " + e.getKeyCode());
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-        System.out.println("Key released: " + e.getKeyCode());
-    }
+    
 }
