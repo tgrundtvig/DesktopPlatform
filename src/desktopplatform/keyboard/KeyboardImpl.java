@@ -44,14 +44,12 @@ public class KeyboardImpl implements KeyListener, Keyboard
     public synchronized void keyPressed(KeyEvent e)
     {
         eventlist.add(new KeyEventImpl(e.getWhen() - startTime, e, true));
-        System.out.println("Key pressed: " + e.getKeyCode());
     }
 
     @Override
     public synchronized void keyReleased(KeyEvent e)
     {
         eventlist.add(new KeyEventImpl(e.getWhen() - startTime, e, false));
-        System.out.println("Key released: " + e.getKeyCode());
     }
 
     public synchronized void playback()
