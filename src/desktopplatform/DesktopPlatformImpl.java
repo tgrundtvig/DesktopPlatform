@@ -50,6 +50,8 @@ public class DesktopPlatformImpl implements Platform
             frame.setUndecorated(true);
             frame.setIgnoreRepaint(true);
             device.setFullScreenWindow(frame);
+            frame.setVisible(false);
+            frame.setVisible(true);
             Rectangle bounds = frame.getBounds();
             frame.createBufferStrategy(2);
             BufferStrategy strategy = frame.getBufferStrategy();
