@@ -10,6 +10,7 @@ import applicationapi.graphics.Color;
 import applicationapi.graphics.SpriteBuilder;
 import applicationapi.graphics.SpriteFactory;
 import java.awt.GraphicsConfiguration;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -27,7 +28,9 @@ public class SpriteFactoryImpl implements SpriteFactory
     @Override
     public SpriteBuilder newSprite(int width, int height)
     {
-        return new SpriteBuilderImpl(gc.createCompatibleImage(width, height));
+        BufferedImage img = gc.createCompatibleImage(width, height);
+        if(img == null) throw new RuntimeException("Could not create a compatible buffered image!");
+        return new SpriteBuilderImpl(img);
     }
 
     @Override
