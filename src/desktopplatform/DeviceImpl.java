@@ -9,6 +9,7 @@ package desktopplatform;
 import applicationapi.Device;
 import applicationapi.graphics.Screen;
 import applicationapi.input.keyboard.Keyboard;
+import applicationapi.input.mouse.Mouse;
 
 /**
  *
@@ -18,11 +19,13 @@ public class DeviceImpl implements Device
 {
     private final Screen screen;
     private final Keyboard kb;
+    private final Mouse mouse;
 
-    public DeviceImpl(Screen screen, Keyboard kb)
+    public DeviceImpl(Screen screen, Keyboard kb, Mouse mouse)
     {
         this.screen = screen;
         this.kb = kb;
+        this.mouse = mouse;
     }
     
     
@@ -36,6 +39,12 @@ public class DeviceImpl implements Device
     public Keyboard getKeyboard()
     {
         return kb;
+    }
+
+    @Override
+    public Mouse getMouse()
+    {
+        return mouse;
     }
     
 }

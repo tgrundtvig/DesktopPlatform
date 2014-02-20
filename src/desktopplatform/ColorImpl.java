@@ -14,7 +14,7 @@ import applicationapi.graphics.Color;
  */
 public class ColorImpl implements Color
 {
-    private java.awt.Color col;
+    private final java.awt.Color col;
     
     ColorImpl(int c)
     {
