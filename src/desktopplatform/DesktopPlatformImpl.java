@@ -80,7 +80,7 @@ public class DesktopPlatformImpl implements Platform
          
             Screen scr = new ScreenImpl(bounds.width, bounds.height, new SpriteFactoryImpl(gc));
             Device dev = new DeviceImpl(scr, eventHandler, eventHandler);
-            app.initialize(dev);
+            if(!app.initialize(dev)) return;
             long startTimeMillis = System.currentTimeMillis();
             boolean running = app.update(0);
             eventHandler.start(startTimeMillis);

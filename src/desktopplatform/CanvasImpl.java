@@ -7,6 +7,7 @@
 package desktopplatform;
 
 import applicationapi.graphics.Canvas;
+import applicationapi.graphics.Color;
 import applicationapi.graphics.Sprite;
 import java.awt.Graphics;
 
@@ -32,6 +33,14 @@ public class CanvasImpl implements Canvas
         int posX = x - aX;
         int posY = y - aY;
         graphics.drawImage(sprite.getImage(), posX, posY, null);
+    }
+
+    @Override
+    public void drawLine(int ax, int ay, int bx, int by, Color c)
+    {
+        ColorImpl color = (ColorImpl) c;
+        graphics.setColor(color.getAWTColor());
+        graphics.drawLine(ax, ay, bx, by);
     }
     
 }
